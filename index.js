@@ -1,5 +1,6 @@
 import express from "express";
 import fetch from "node-fetch";
+import serverless from "serverless-http";
 
 const app = express();
 app.use(express.json());
@@ -9,7 +10,7 @@ const TELEGRAM_API = `https://api.telegram.org/bot${TOKEN}`;
 
 app.get("/", (req, res) => res.send("Bot is live!"));
 
-app.post("/webhook", async (req, res) => {
+app.post("/api/webhook", async (req, res) => {
   const data = req.body;
   console.log(data);
 
@@ -26,4 +27,4 @@ app.post("/webhook", async (req, res) => {
   res.sendStatus(200);
 });
 
-app.listen(3000, () => console.log("Server running on port 3000"));
+export const handler = serverless(app);
